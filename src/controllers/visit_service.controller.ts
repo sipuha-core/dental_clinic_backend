@@ -51,3 +51,11 @@ export async function updateVisitService(req: Request, res: Response) {
     if (!rows[0]) return res.status(404).json({ message: 'Не найден' });
     res.json(rows[0]);
 }
+
+export async function getVisitServicesByVisit(req: Request, res: Response) {
+    const { rows } = await pool.query(
+        `select * from visit_service where visit_id = $1`,
+        [req.params.id]
+    );
+    res.json(rows);
+}

@@ -33,10 +33,10 @@ export async function getVisits(_req: Request, res: Response) {
 };
 
 export async function getVisitById(req: Request, res: Response) {
-    const { rows } = await pool.query(`select * from visit where id = $1`, [req.params.id]);
+    const { rows } = await pool.query(`${VISIT_QUERY} WHERE v.id = $1`, [req.params.id]);
     if (!rows[0]) return res.status(404).json({ message: 'Не найден' });
     res.json(rows[0]);
-};
+}
 
 export async function deleteVisit(req: Request, res: Response) {
     const { rowCount } = await pool.query(`delete from visit where id = $1`, [req.params.id]);

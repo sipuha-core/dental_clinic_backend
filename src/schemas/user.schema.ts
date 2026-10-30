@@ -30,7 +30,10 @@ export const updateUserSchema = z
         last_name: userSchema.shape.last_name,
         email: userSchema.shape.email,
         phone: userSchema.shape.phone,
-        password: z.string().min(6, 'Пароль должен быть не менее 6 символов'),
+        password: z.preprocess(
+            item => (item === '' || item === null ? undefined : item),
+            z.string().min(6, 'Минимум 6 символов').optional()
+        ),
         role: userSchema.shape.role,
         is_active: userSchema.shape.is_active,
     })

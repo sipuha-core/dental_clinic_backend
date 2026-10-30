@@ -16,7 +16,15 @@ export async function createPayment(req: Request, res: Response) {
     res.status(201).json(rows[0]);
 }
 
-export async function getPayments(_req: Request, res: Response) {
+export async function getPayments(req: Request, res: Response) {
+    const visitId = typeof req.query.visit_id === 'string' ? req.query.visit_id : null;
+    if (visitId) {
+        const { rows } = await pool.query(
+            `select * from payment where visit_id = $1 order by created_at desc`,
+            [visitId]
+        );
+        return res.json(rows);
+    }
     const { rows } = await pool.query(`select * from payment order by created_at desc`);
     res.json(rows);
 }

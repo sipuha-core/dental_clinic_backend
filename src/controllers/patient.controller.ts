@@ -19,9 +19,26 @@ export async function createPatient(req: Request, res: Response) {
     res.status(201).json(rows[0]);
 }
 
-export async function getPatients(_req: Request, res: Response) {
-    const { rows } = await pool.query(`select * from patient order by created_at desc`);
-    res.json(rows);
+export async function getPatients(req: Request, res: Response) {
+    const search = typeof req.query.search === 'string' ? req.query.search.trim() : ''
+
+    if (!search) {
+        const { rows } = await pool.query(
+            `select * from patient order by created_at desc`
+        )
+        return res.json(rows)
+    }
+
+    const pattern = `%${search}%`
+    const { rows } = await pool.query(
+        `select * from patient
+         where first_name ilike $1
+            or last_name  ilike $1
+            or phone      ilike $1
+         order by created_at desc`,
+        [pattern]
+    )
+    res.json(rows)
 }
 
 export async function getPatientById(req: Request, res: Response) {

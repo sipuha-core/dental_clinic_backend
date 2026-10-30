@@ -7,8 +7,8 @@ const dateTimeString = z.string().refine((value) => !Number.isNaN(Date.parse(val
 });
 
 const visitBaseSchema = z.object({
-    patient_id: z.string().uuid(),
-    doctor_id: z.string().uuid().nullable(),
+    patient_id: z.string().min(1, 'Выберите пациента'),
+    doctor_id: z.string().min(1, 'Выберите врача').nullable(),
     start_time: dateTimeString,
     end_time: dateTimeString,
     status: visitStatusSchema,
