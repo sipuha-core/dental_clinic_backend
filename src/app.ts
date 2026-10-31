@@ -7,13 +7,13 @@ import paymentRouter from './routes/payment.js'
 import visit_serviceRouter from './routes/visit_service.js'
 import authRoutes from './routes/auth.js'
 import { authMiddleware } from './middleware/auth.js'
-import helmet from 'helmet'
+import * as helmet from 'helmet'
 import cors from 'cors'
 import { errorHandler } from './middleware/errorHandler.js'
 
 const app = express()
 
-app.use(helmet())
+app.use(helmet.default())
 app.use(cors({
     origin: process.env.CLIENT_ORIGIN || 'http://localhost:5173',
     credentials: true
