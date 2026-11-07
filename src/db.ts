@@ -3,7 +3,7 @@ import { Pool, types } from 'pg'
 types.setTypeParser(1082, (item) => item)
 
 const pool = new Pool({
-    connectionString: process.env.DATABASE_URL_DEV,
+    connectionString: process.env.DATABASE_URL,
     ssl: process.env.NODE_ENV === 'production'
         ? { rejectUnauthorized: false }
         : false,
