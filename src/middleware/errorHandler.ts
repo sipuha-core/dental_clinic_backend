@@ -36,7 +36,7 @@ export function errorHandler(
                 break
             case 'payment_visit_id_fkey':
             case 'visit_service_visit_id_fkey':
-                message = 'Визит не найден'
+                message = 'Запись не найдена'
                 break
             case 'visit_service_service_id_fkey':
                 message = 'Услуга не найдена'
@@ -44,12 +44,16 @@ export function errorHandler(
         }
         return res.status(400).json({ message })
     }
-
     if (err.code === '23505') {
-        const message =
-            err.constraint === 'service_code_key'
-                ? 'Услуга с таким кодом уже существует'
-                : 'Запись с такими данными уже существует'
+        let message = 'Запись с такими данными уже существует'
+        switch (err.constraint) {
+            case 'service_code_key':
+                message = 'Услуга с таким кодом уже существует'
+                break
+            case 'patient_phone_key':
+                message = 'Пациент с таким телефоном уже существует'
+                break
+        }
         return res.status(409).json({ message })
     }
 

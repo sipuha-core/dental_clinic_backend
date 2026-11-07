@@ -22,7 +22,7 @@ export interface Patient {
     id: EntityId;
     first_name: string;
     last_name: string;
-    phone: string | null;
+    phone: string;
     birth_date: string | null;
     created_at: string;
     updated_at: string;

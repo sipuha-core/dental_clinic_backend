@@ -44,6 +44,7 @@ export async function updateVisitService(req: Request, res: Response) {
             service_id = coalesce($2, service_id),
             quantity = coalesce($3, quantity),
             price_at_time = coalesce($4, price_at_time)
+            updated_at = now()
          where id = $5
          returning *`,
         [visit_id, service_id, quantity, price_at_time, req.params.id]
